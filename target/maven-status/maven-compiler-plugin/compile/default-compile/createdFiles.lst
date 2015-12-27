@@ -1,1 +1,7 @@
+noticias/domain/Noticia.class
+noticias/web/UsuariosController.class
 noticias/web/IndexController.class
+noticias/service/NoticiaService.class
+noticias/domain/Usuario.class
+noticias/web/NoticiasController.class
+noticias/service/NoticiaServiceImp.class

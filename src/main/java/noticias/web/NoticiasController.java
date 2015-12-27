@@ -5,6 +5,8 @@
  */
 package noticias.web;
 
+import noticias.service.NoticiaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -16,8 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/noticias")
 public class NoticiasController {
     
+    @Autowired
+    private NoticiaService noticiaService;
+
+  
+    
     @RequestMapping("/layout")
     public String getPartialPage() {
+        System.out.println("************************"+noticiaService.getAll().get(0).getTitulo());
         return "layouts/noticias";
     }
     
