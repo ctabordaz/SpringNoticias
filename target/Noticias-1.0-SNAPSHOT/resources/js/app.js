@@ -9,5 +9,9 @@ angular.module("noticias",["ngRoute"])
         .when("/noticias",{
             controller: "NoticiaController",
             templateUrl: "noticias/layout"
+        })
+        .when("/usuarios",{
+            controller: "UsuarioController",
+            templateUrl: "usuarios/layout"
         });
 });
