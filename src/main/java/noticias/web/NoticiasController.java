@@ -10,7 +10,9 @@ import noticias.domain.Noticia;
 import noticias.service.NoticiaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -27,12 +29,17 @@ public class NoticiasController {
     @RequestMapping("/noticiaList.json")
     public @ResponseBody List<Noticia> getNoticiaList(){
         return noticiaService.getAll();
-    }
+    };
+    
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public @ResponseBody void addNoticia(@RequestBody Noticia noticia) {
+        noticiaService.addNoticia(noticia);
+    };
     
     @RequestMapping("/layout")
     public String getPartialPage() {
         System.out.println("************************"+noticiaService.getAll().get(0).getTitulo());
         return "layouts/noticias";
-    }
+    };
     
 }

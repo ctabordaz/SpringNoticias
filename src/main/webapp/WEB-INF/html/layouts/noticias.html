@@ -1,2 +1,23 @@
-<h1>Noticias</h1>
-<p>{{a}}</p>
+
+<div class="col-md-5" >
+    <h1>{{titulo}}</h1>
+    <div class="well well-lg row top-space" ng-repeat="noticia in noticias">
+        <strong>{{noticia.titulo}}</strong>
+        <p>{{noticia.cuerpo}}</p>
+    </div>
+</div>
+<div class="col-md-5 col-md-offset-1">
+    <h1>Nueva Noticia</h1>
+    <form ng-submit="guardar()">
+        <div class="form-group">
+            <label for="titulo">Titulo</label>
+            <input ng-model="newNoticia.titulo" type="text" class="form-control" id="titulo" placeholder="Titulo">
+        </div>
+        <div class="form-group">
+            <label for="cuerpo">Cuerpo</label>
+            <textarea ng-model="newNoticia.cuerpo" placeholder="Cuerpo"  class="form-control" rows="10" id="cuerpo"></textarea>
+        </div>
+       
+        <button  type="submit" class="btn btn-default">Enviar</button>
+    </form>
+</div>

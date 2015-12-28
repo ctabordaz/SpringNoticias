@@ -43,7 +43,7 @@ public class NoticiaServiceImp implements NoticiaService{
 
     @Override
     public void addNoticia(Noticia noticia) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        NoticiaList.add(noticia);
     }
 
     @Override
