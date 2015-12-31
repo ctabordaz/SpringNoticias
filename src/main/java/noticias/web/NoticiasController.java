@@ -29,50 +29,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/noticias")
 public class NoticiasController {
     
-     private DataSource dataSource;
+    
     
     @Autowired
     private NoticiaService noticiaService;
     
-    @Autowired
-    public NoticiasController(DataSource dataSource) {
-        System.out.println("++++++++++++++++++++++ constructor");
-        this.dataSource  = dataSource;
-    }
+   
 
     @RequestMapping("/noticiaList.json")
-    public @ResponseBody List<Noticia> getNoticiaList(){
-        System.out.println("++++++++++++++++++++++++++++++get noticias");
-        String query = "SELECT * FROM noticia";
-        List<Noticia>  NoticiaList = new ArrayList<Noticia>();
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        
-        try {
-            con = dataSource.getConnection();
-            ps = con.prepareStatement(query);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                Noticia not = new Noticia();
-                not.setCodigo(rs.getInt("codigo"));
-                not.setTitulo(rs.getString("titulo"));
-                not.setCuerpo(rs.getString("cuerpo"));
-                NoticiaList.add(not);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                rs.close();
-                ps.close();
-                con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        
-        return NoticiaList;
+    public @ResponseBody List<Noticia> getNoticiaList(){  
+        System.err.println(noticiaService.getAll().size());
+        return noticiaService.getAll();
     };
 
     
@@ -84,7 +51,7 @@ public class NoticiasController {
     
     @RequestMapping("/layout")
     public String getPartialPage() {
-        System.out.println("************************"+noticiaService.getAll().get(0).getTitulo());
+        
         return "layouts/noticias";
     };
     

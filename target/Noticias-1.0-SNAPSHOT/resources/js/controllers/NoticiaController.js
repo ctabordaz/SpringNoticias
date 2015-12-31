@@ -13,8 +13,7 @@ angular.module("noticias")
     
    $scope.guardar = function(){
        
-       $http.post("noticias/add",{
-           codigo: $scope.newNoticia.codigo,
+       $http.post("noticias/add",{          
            titulo: $scope.newNoticia.titulo,
            cuerpo: $scope.newNoticia.cuerpo
        }).success(function(data){
@@ -25,6 +24,10 @@ angular.module("noticias")
        });
       
        
-   }
+   };
+   
+   $scope.remove = function(cod){
+    //   $http.delete("noticias/")
+   };
  
 });

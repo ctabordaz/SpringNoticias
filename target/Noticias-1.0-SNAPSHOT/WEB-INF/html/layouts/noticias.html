@@ -2,7 +2,11 @@
 <div class="col-md-5" >
     <h1>{{titulo}}</h1>
     <div class="well well-lg row top-space" ng-repeat="noticia in noticias">
-        <strong>{{noticia.titulo}}</strong>
+        <div class="row">
+            <strong>{{noticia.titulo}}</strong>
+            <span ng-click="remove(noticia.codigo)" class="glyphicon glyphicon-remove pull-right" aria-hidden="true"></span>
+        </div>
+        
         <p>{{noticia.cuerpo}}</p>
     </div>
 </div>

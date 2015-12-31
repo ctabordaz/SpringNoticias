@@ -5,9 +5,15 @@
  */
 package noticias.service;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.sql.DataSource;
 import noticias.domain.Noticia;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,33 +23,89 @@ import org.springframework.stereotype.Service;
 @Service("noticiaService")
 public class NoticiaServiceImp implements NoticiaService{
     
+    private DataSource dataSource;
     private static List<Noticia> NoticiaList = new ArrayList<Noticia>();
-
-    public NoticiaServiceImp() {
-        Noticia n1 = new Noticia();
-        n1.setCodigo(0);
-        n1.setTitulo("Primera notica");
-        n1.setCuerpo("LALALALALALALALLALALALLALA");
+    private static  int Nnoticia = 0;
+    @Autowired
+    public NoticiaServiceImp(DataSource dataSource) {
+        this.dataSource  = dataSource;     
+        System.out.println("++++++++++++++++++++++++++++++get noticias");
+        String query = "SELECT * FROM noticia";
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         
-        Noticia n2 = new Noticia();
-        n2.setCodigo(1);
-        n2.setTitulo("Segunda notica");
-        n2.setCuerpo("BOBOBOBOBOBOBOBOBOOBOBOBOOB");
-        
-        NoticiaList.add(n1);
-        NoticiaList.add(n2);
+        try {
+            con = dataSource.getConnection();
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Noticia not = new Noticia();
+                not.setCodigo(rs.getInt("codigo"));
+                not.setTitulo(rs.getString("titulo"));
+                not.setCuerpo(rs.getString("cuerpo"));
+                NoticiaList.add(not);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+                ps.close();
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
     
     
     
     @Override
     public List<Noticia> getAll() {
-     return NoticiaList;
+     
+        return this.NoticiaList;
     }
 
     @Override
     public void addNoticia(Noticia noticia) {
-        NoticiaList.add(noticia);
+        
+        noticia.setCodigo(Nnoticia);
+        
+        
+         Connection conn=null;
+         System.out.println("creando********************************************************");
+        
+        try{
+            conn= dataSource.getConnection();
+            conn.setAutoCommit(false);
+            
+            String sqlUsers = "INSERT INTO noticia (codigo, titulo, cuerpo) VALUES("+ noticia.getCodigo()+",'"+ noticia.getTitulo()+"','"+noticia.getCuerpo()+"');";
+            System.out.println(sqlUsers);
+            PreparedStatement psUsers = conn.prepareStatement(sqlUsers);
+            psUsers.executeUpdate();
+            psUsers.close();
+           
+            conn.commit();
+            NoticiaList.add(noticia);
+            this.Nnoticia++;
+        }catch(SQLException e){
+            
+            throw new RuntimeException(e);
+            
+        }finally{
+            if(conn != null){
+                try{
+                    conn.close();
+                }catch(SQLException e){} 
+                
+            }
+        }
+        
+      
+        
+        
+       
     }
 
     @Override
