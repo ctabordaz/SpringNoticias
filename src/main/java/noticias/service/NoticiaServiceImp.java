@@ -81,14 +81,13 @@ public class NoticiaServiceImp implements NoticiaService{
             conn.setAutoCommit(false);
             
             String sqlUsers = "INSERT INTO noticia (codigo, titulo, cuerpo) VALUES("+ noticia.getCodigo()+",'"+ noticia.getTitulo()+"','"+noticia.getCuerpo()+"');";
-            System.out.println(sqlUsers);
             PreparedStatement psUsers = conn.prepareStatement(sqlUsers);
             psUsers.executeUpdate();
             psUsers.close();
            
             conn.commit();
             NoticiaList.add(noticia);
-            this.Nnoticia++;
+            NoticiaServiceImp.Nnoticia++;
         }catch(SQLException e){
             
             throw new RuntimeException(e);
@@ -110,7 +109,38 @@ public class NoticiaServiceImp implements NoticiaService{
 
     @Override
     public void removeNoticia(Noticia noticia) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+         Connection conn=null;
+         System.out.println("eliminado********************************************************");
+        
+        try{
+            conn= dataSource.getConnection();
+            conn.setAutoCommit(false);
+            
+            String sqlUsers = "DELETE FROM noticia WHERE codigo = "+noticia.getCodigo() +";";
+           
+            PreparedStatement psUsers = conn.prepareStatement(sqlUsers);
+            psUsers.executeUpdate();
+            psUsers.close();
+           
+            conn.commit();
+            if (NoticiaList.contains(noticia)) {
+            NoticiaList.remove(noticia);
+             }
+            
+        }catch(SQLException e){
+            
+            throw new RuntimeException(e);
+            
+        }finally{
+            if(conn != null){
+                try{
+                    conn.close();
+                }catch(SQLException e){} 
+                
+            }
+        }
+        
     }
     
 }

@@ -27,7 +27,21 @@ angular.module("noticias")
    };
    
    $scope.remove = function(cod){
-    //   $http.delete("noticias/")
+     
+      
+       $http({ url: 'noticias/remove', 
+                method: 'DELETE', 
+                data: {codigo: cod.codigo,
+                        titulo: cod.titulo,
+                        cuerpo: cod.cuerpo}, 
+                headers: {"Content-Type": "application/json;charset=utf-8"}
+        }).then(function(res) {
+            $scope.noticias = $scope.noticias.filter(function(noticia){
+               return noticia !=cod; 
+            });
+        }, function(error) {
+            console.log(error);
+        });
    };
  
 });

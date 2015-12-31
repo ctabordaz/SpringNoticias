@@ -16,6 +16,7 @@ import noticias.domain.Noticia;
 import noticias.service.NoticiaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -55,4 +56,8 @@ public class NoticiasController {
         return "layouts/noticias";
     };
     
+    @RequestMapping(value = "/remove",method = RequestMethod.DELETE)
+    public @ResponseBody void removeNoticia(@RequestBody  Noticia cod){
+        noticiaService.removeNoticia(cod);
+    }
 }
