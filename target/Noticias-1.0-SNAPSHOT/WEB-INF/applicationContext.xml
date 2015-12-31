@@ -21,5 +21,11 @@
     p:password="${jdbc.password}" /-->
 
     <!-- ADD PERSISTENCE SUPPORT HERE (jpa, hibernate, etc) -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/bd" />
+		<property name="username" value="root" />
+		<property name="password" value="94030906505" />
+    </bean>
 
 </beans>
